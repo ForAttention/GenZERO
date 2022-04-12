@@ -12,7 +12,7 @@ To cytat z Podręcznika Matematycznego cz.2 WPN, III wydanie rok 1982.
 
 Do generacji zero należą maszyny cyfrowe zbudowane na przekaźnikach.
 
-Wiąże się ona z latami: 1937 - 1944, kiedy to pod kierunkiem H.Aikena została zbudowana pierwsza maszyna cyfrowa całkowicie zuatomatyzowana o nazwie MARK 1.
+Wiąże się ona z latami: 1937 - 1944, kiedy to pod kierunkiem H.Aikena została zbudowana pierwsza maszyna cyfrowa całkowicie zautomatyzowana o nazwie MARK 1.
 
 
 
@@ -30,8 +30,13 @@ Film z poruszania sie po sklepie (naciśniej na kwadrat):
 
 Film z konwersacji z konsultantem (naciśnij kwadrat):
 
-[![Film z drugiego testu](https://antyweb.pl/img/781/440/fit/wp-content/uploads/2020/05/26104900/youtube3.jpg)](https://www.youtube.com/embed/B1PJ_RrOhJc "Film z drugiego testu")
+*Pani Izabela była niestety niepotrzebnie bardzo aktywna a z racji wczesniejszych konsultantów pozostał męski zwrot. Dla dobra mojego numeru IP nie podjąłem kolejnej próby w poszukiwaniu szczęścia z konsultantem płci męskiej.
 
+[![Film z drugiego testu](https://antyweb.pl/img/781/440/fit/wp-content/uploads/2020/05/26104900/youtube3.jpg)](https://youtu.be/Ec4qvEF2ETw "Film z drugiego testu")
+
+
+
+###### Filmy pt.: ,,U mnie działa"
 ## Setup
 Aby zacząć pobierz biblioteki zawarte w pliku requires:
 ```shell

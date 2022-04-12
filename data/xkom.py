@@ -3,10 +3,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from data.personal import CreatePerson
 from selenium.webdriver.common.by import By
 import time
-import requests
-import lxml
 from bs4 import BeautifulSoup
-import re
+
 
 
 
@@ -131,13 +129,20 @@ class XKom:
         nalepiej zapisać to jako zmienna i się później odnosić do tego jako inputText"""
         """test"""
         print("Zaczynamy odpytywnaie")
+        some_text = ["Jesteś 2 w kolejce",
+                     "Niedługo połączy się z Tobą doradca."]
         boologic = False
         lenght = 0
         welcome = 0
-        looking_for = 0
+        looking_for = 0 # kiedys się przydasz
         name = ""
+        wait = 0
+        priv_ask = 0
         while boologic != True:
             table = []
+            print(f"Zerujemu tablicę = {len(table)}")
+            print(f"Nasza długość length wynosi = {lenght}")
+
             """Plan jest taki aby olać asynchroniczne moduły wraz z wbudowaną komendą od selenium
             W pętli while odpytujemy non stop stronę, xkom dodaje nowe pliki div i span z podobną klasą
             liczymy ile jest na stronie, kazda odpowiedź konsultanta to dodatkowy div/span
@@ -151,42 +156,87 @@ class XKom:
             bs44 = bs41.body.find_all('span', {"class": "sc-154u2ib-4 cDszJB"})
             """Jak się okazało istnieje tag span gdzie klasa ma zawsze taką samą nazwę i występuje tylko w tym chacie"""
             # syntax = re.findall("^[sc-154u2ib-3]<?/", str(bs41))
-            print(str(bs44))
             for z in bs44:
                 """zapisujemy po kolei wszystkie 'teskty' z chatu do tablicy table """
                 zet = BeautifulSoup(str(z), "lxml")
                 wu = zet.find("span").get_text()
                 print(wu)
+                if str(wu) in table:
+                    continue
                 table.append(wu)
             """Tutaj ustalamy warunki, na początku wchodzimy do warunku powitania, po jego spełnienu ustalają się 
             wszystkie zmienne """
             newtext = browser.find_elements(By.NAME, "message")
-            print(lenght)
-            print(len(table))
-            if len(table) > lenght:
+            print(f"Nasza długość length po skrobaniu wynosi = {lenght}")
+            print(f"Nasza długość tablicy po skrobaninu wynosi = {len(table)}")
+            if len(table) > lenght and len(table) != 0:
+                if lenght < len(table):
+                    """Musimy to tutaj zrównać, inaczej nie ma jak dodać tego do lenght a nasz główny if zawsze będzie sie wykonywał"""
+                    lenght = 0
+                    lenght += len(table)
+
                 if welcome == 0:
                     newtext[0].send_keys("Witam, mam pytanie dotyczące sprzętu, czy jestem połączony z konsultantem?")
                     browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
                     """Ustalamy że welcome już nie będzie równe zero aby ponownie nie wpaść do warunku"""
                     welcome += 1
                     """Ustalamy pierwszą długość tablicy , każda nowa wiadomość to kolejny element"""
-                    lenght += len(table)
+                    lenght += 1
+                    print(f"dodalismy do lenght 1 = {len(table)}")
 
-                if len(table) >= 3:
-                    """Tutaj wyciągniemy z chatu imię konsultanta
-                        Jest to zwykle 3 element tablicy table, imię jest na końcu"""
-                    name = table[2][27:]
-                    print(f"Pobrano imię konsultanta - {name}")
+                """Powstaje wyjątek, czasem mogę być któryś w kolejce, element nie będzie 3 tylko 5"""
+                if name == "":
+                    if some_text[0] in table or some_text[1] in table:
+                        if len(table) >= 4:
+                            """Tutaj wyciągniemy z chatu imię konsultanta
+                                Jest to zwykle 3 element tablicy table, imię jest na końcu"""
+                            name = table[4][27:]
+                            print(f"Pobrano imię konsultanta - {name}")
+                            wait += 1
+                    else:
+                        if len(table) == 3:
+                            """Tutaj wyciągniemy z chatu imię konsultanta
+                                Jest to zwykle 3 element tablicy table, imię jest na końcu"""
+                            name = table[2][27:]
+                            print(f"Pobrano imię konsultanta - {name}")
 
-                if looking_for == 1:
-                    print("Wysyłamy pierwsze zapytanie o falownik do fotowoltaiki :)")
-                    newtext[0].send_keys(f"Cześć {name}, czy macie może w ofercie falowniki do fotowoltaiki?")
-                    browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
-                    lenght += len(table)
+                if name != "":
+                    if wait == 1:
+                        if len(table) == 6:
+                            print("Wysyłamy pierwsze zapytanie o falownik do fotowoltaiki :)")
+                            newtext[0].send_keys(f"Cześć {name}, czy macie może w ofercie falowniki do fotowoltaiki?")
+                            browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
+                            lenght += 1
+                    if wait == 0:
+                        if len(table) == 4:
+                            print("Wysyłamy pierwsze zapytanie o falownik do fotowoltaiki :)")
+                            newtext[0].send_keys(f"Cześć {name}, czy macie może w ofercie falowniki do fotowoltaiki?")
+                            browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
+                            lenght += 1
 
-                time.sleep(3)
+                if priv_ask == 0:
+                    if wait == 1:
+                        if len(table) >= 7:
+                            print("Wysyłamy drugie zapytanie o falownik do fotowoltaiki :)")
+                            newtext[0].send_keys(f"{name} a może sam szukasz godnego polecenia sprzętu do odbioru energii ze słońca?"
+                                                 f"Chyba możemy się dogadać - dobrze, że się znaleźliśmy :D ")
+                            browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
+                            lenght += 1
+                    if wait == 0:
+                        if len(table) >= 6:
+                            print("Wysyłamy drugie zapytanie o falownik do fotowoltaiki :)")
+                            newtext[0].send_keys(
+                                f"{name} a może sam szukasz godnego polecenia sprzętu do odbioru energii ze słońca?"
+                                f"Chyba możemy się dogadać - dobrze, że się znaleźliśmy :D ")
+                            browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
+                            lenght += 1
+
+                    """Więcej nie będę rozpisywał żeby mi nie zablokowali IP albo wrzucili ma black_list"""
+                    ""'Za pomocą ifów można to rozbudowywać, lub napisa pod to klasę, jeżeli ktoś chce stworzyć ' \
+                    'poważny system relacji z konsultantem'
+                    """Ja robiłem to dla zabawy więc za pomocą ifów chciałem pokazać tylko żę się da i że potrafię"""
+                time.sleep(5)
+            time.sleep(5)
             """To jest teraz bardzo ważne, tablica table będzie zerowana co cykl pętli while, natomiast zminna 
             lenght musi trzymac poprzednią wartość ilości elementów """
 
-
-        time.sleep(123)
