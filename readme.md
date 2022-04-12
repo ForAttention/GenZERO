@@ -17,19 +17,26 @@ Wiąże się ona z latami: 1937 - 1944, kiedy to pod kierunkiem H.Aikena został
 
 
 ## O programie
+W tym prgramie chciałem zaprezentować umiejętność pisania testów za pomocą Selenium jak i nie tylko.
+Zawsze dążę do osiągnięcia celu wkorzystując nowe sposoby, dzięki wykorzystaniu wielu bibliotek nie mam problemu z napisaniem testu.
+
+W tym punkcie omówię dwa moduły z klasy XKom w folderze data, w którym to napisałem program do zgrabnego poruszania się po sklepie: rejestracja - przejście do konkretnego produktu - wypełnienia danych w koszyku i przejścia do potwierdzenia zamówienia.
+
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/B1PJ_RrOhJc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+	
+## Setup
 Aby zacząć pobierz biblioteki zawarte w pliku requires:
 ```shell
 pip install -r requires 
 ```
-* Lorem version: 12.3
-* Ipsum version: 2.33
-* Ament library version: 999
-	
-## Setup
-To run this project, install it locally using npm:
+lub
+```shell
+py -m pip install -r requires
+```
 
+Aby uruchomić program, należy, przejść do głównego folderu i wykonać komendę w terminalu
+```shell
+py main.py
 ```
-$ cd ../lorem
-$ npm install
-$ npm start
-```
+
