@@ -26,8 +26,12 @@ Oraz konwersację z obsługą klienta, gdzie od paru niewinnych pytań będę ch
 
 Film z poruszania sie po sklepie (naciśniej na kwadrat):
 
-[![Everything Is AWESOME](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOBeMTnO02MAv8k2mtpPBwN8_ayeLjnuRIBw&usqp=CAU)](https://www.youtube.com/embed/B1PJ_RrOhJc "Everything Is AWESOME")
-	
+[![Film z pierwszego testu](https://antyweb.pl/img/781/440/fit/wp-content/uploads/2020/05/26104900/youtube3.jpg)](https://www.youtube.com/embed/B1PJ_RrOhJc "Film z pierwszego testu")
+
+Film z konwersacji z konsultantem (naciśnij kwadrat):
+
+[![Film z drugiego testu](https://antyweb.pl/img/781/440/fit/wp-content/uploads/2020/05/26104900/youtube3.jpg)](https://www.youtube.com/embed/B1PJ_RrOhJc "Film z drugiego testu")
+
 ## Setup
 Aby zacząć pobierz biblioteki zawarte w pliku requires:
 ```shell
