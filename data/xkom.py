@@ -8,6 +8,9 @@ import lxml
 from bs4 import BeautifulSoup
 import re
 
+
+
+
 class XKom:
     """Długp szukałem strony gdzie można wykonac jakieś logowanie (z rejestracja) bez problemu"""
 
@@ -46,8 +49,7 @@ class XKom:
         browser.maximize_window()
         time.sleep(3)
 
-        browser.find_element(By.XPATH, "//div[@id='react-portals']/div[4]/div/div[@role='dialog']//button[.='W "
-                                       "porządku']").click()
+        browser.find_element(By.XPATH, "/html//div[@id='react-portals']//div[@role='dialog']//button[.='W porządku']").click()
         browser.find_element(By.XPATH, "/html//div[@id='app']/div[1]/header/div[1]/div[4]/div/div[2]/div/div["
                                             "1]/a[@href='/konto']").click()
         browser.find_element(By.XPATH, "//div[@id='app']/div/div[1]/div/div[2]//a[@href='/rejestracja']").click()
@@ -96,7 +98,7 @@ class XKom:
         ccc = browser.find_elements(By.CSS_SELECTOR, ".cCPDSX.pvj85d-4.sc-15ih3hi-0")
 
         print(len(aaa))
-        print(len(bbb))
+        print(len(bbb)) # to printuje te jedynki
         print(len(ccc))
 
         """Jest tyle opcji wyboru ponieważ nie zawsze działa jeden sposób ;_;"""
@@ -128,39 +130,63 @@ class XKom:
         """Teraz musimy znaleźć pole tekstowe i wprowadzić do niego wyrazy
         nalepiej zapisać to jako zmienna i się później odnosić do tego jako inputText"""
         """test"""
-        newtext = browser.find_elements(By.NAME, "message")
-        newtext[0].send_keys("Witam, mam pytanie dotyczące sprzętu, czy jestem połączony z konsultantem?")
-        browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
-        time.sleep(15)
         print("Zaczynamy odpytywnaie")
         boologic = False
+        lenght = 0
+        welcome = 0
+        looking_for = 0
+        name = ""
         while boologic != True:
+            table = []
             """Plan jest taki aby olać asynchroniczne moduły wraz z wbudowaną komendą od selenium
             W pętli while odpytujemy non stop stronę, xkom dodaje nowe pliki div i span z podobną klasą
-            liczym ile jest na stronie, kazda odpowiedź konsultanta to dodatkowy div/span
+            liczymy ile jest na stronie, kazda odpowiedź konsultanta to dodatkowy div/span
             Jeżeli zostanie wykryty > od poprzedniej puli to analizujemy tekst"""
 
             """Pobieramy całą stronę"""
             content = browser.page_source
+            """content będzie naszym requestem aby nie rzucać tak ciastkami za pomocą requests"""
 
-            """Utowrzymy plik html żaby go późnej po requests odpytywać + pewnie bs4"""
-            with open("stronka.html", "w") as webfile:
-                webfile.write(content)
-            time.sleep(3)
-            data = requests.get("stronka.html")
-            print("Data jest uzupełnione stronką")
-            bs41 = BeautifulSoup(data.text, "lxml")
+            bs41 = BeautifulSoup(content, "lxml")
+            bs44 = bs41.body.find_all('span', {"class": "sc-154u2ib-4 cDszJB"})
+            """Jak się okazało istnieje tag span gdzie klasa ma zawsze taką samą nazwę i występuje tylko w tym chacie"""
             # syntax = re.findall("^[sc-154u2ib-3]<?/", str(bs41))
-            tablica = []
-            for z in bs41:
-                if "sc-154u2ib-3" in z:
-                       tablica.append(z)
+            print(str(bs44))
+            for z in bs44:
+                """zapisujemy po kolei wszystkie 'teskty' z chatu do tablicy table """
+                zet = BeautifulSoup(str(z), "lxml")
+                wu = zet.find("span").get_text()
+                print(wu)
+                table.append(wu)
+            """Tutaj ustalamy warunki, na początku wchodzimy do warunku powitania, po jego spełnienu ustalają się 
+            wszystkie zmienne """
+            newtext = browser.find_elements(By.NAME, "message")
+            print(lenght)
+            print(len(table))
+            if len(table) > lenght:
+                if welcome == 0:
+                    newtext[0].send_keys("Witam, mam pytanie dotyczące sprzętu, czy jestem połączony z konsultantem?")
+                    browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
+                    """Ustalamy że welcome już nie będzie równe zero aby ponownie nie wpaść do warunku"""
+                    welcome += 1
+                    """Ustalamy pierwszą długość tablicy , każda nowa wiadomość to kolejny element"""
+                    lenght += len(table)
 
-            print(tablica)
-        # rozmowa_klasa = browser.find_elements(By.CLASS_NAME, "sc-154u2ib-3")
-        # print(len(rozmowa_klasa))
-        #
-        # for tex in rozmowa_klasa:
-        #     print(tex.text)
+                if len(table) >= 3:
+                    """Tutaj wyciągniemy z chatu imię konsultanta
+                        Jest to zwykle 3 element tablicy table, imię jest na końcu"""
+                    name = table[2][27:]
+                    print(f"Pobrano imię konsultanta - {name}")
+
+                if looking_for == 1:
+                    print("Wysyłamy pierwsze zapytanie o falownik do fotowoltaiki :)")
+                    newtext[0].send_keys(f"Cześć {name}, czy macie może w ofercie falowniki do fotowoltaiki?")
+                    browser.find_element(By.XPATH, "/html//div[@id='react-portals']//form/button").click()
+                    lenght += len(table)
+
+                time.sleep(3)
+            """To jest teraz bardzo ważne, tablica table będzie zerowana co cykl pętli while, natomiast zminna 
+            lenght musi trzymac poprzednią wartość ilości elementów """
+
 
         time.sleep(123)

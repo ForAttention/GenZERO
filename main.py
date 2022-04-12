@@ -7,11 +7,12 @@ from data.xkom import XKom
 from data.personal import CreatePerson
 global browser
 import re
+from  bs4 import BeautifulSoup
 
 if __name__ == "__main__":
     User = XKom(email_instance_user=CreatePerson.mail())
     User.start_convert()
-    # # User.all_in_class()
+    # User.all_in_class()
     time.sleep(10)
 
 # import unittest
