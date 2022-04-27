@@ -69,7 +69,7 @@ class CreatePerson:
         #     except Exception:
         #         pass
 
-        """Geberujemy fajkowe maile aby się nie powtarzały
+        """Generujemy fejkowe maile aby się nie powtarzały
             Wykorzystam fakt że podczas tworzenia konta od razu jest się zalogownym"""
         front_monkey = ""
         for a in range(11):
