@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 
 class XKom:
-    """Długp szukałem strony gdzie można wykonac jakieś logowanie (z rejestracja) bez problemu"""
+    """Długo szukałem strony gdzie można wykonac jakieś logowanie (z 'rejestracja') bez problemu"""
 
     def __init__(self, email_instance_user):
         self.email_instance_user = email_instance_user
@@ -157,7 +157,7 @@ class XKom:
             """Jak się okazało istnieje tag span gdzie klasa ma zawsze taką samą nazwę i występuje tylko w tym chacie"""
             # syntax = re.findall("^[sc-154u2ib-3]<?/", str(bs41))
             for z in bs44:
-                """zapisujemy po kolei wszystkie 'teskty' z chatu do tablicy table """
+                """zapisujemy po kolei wszystkie 'teksty' z chatu do tablicy table """
                 zet = BeautifulSoup(str(z), "lxml")
                 wu = zet.find("span").get_text()
                 print(wu)
@@ -196,7 +196,8 @@ class XKom:
                     else:
                         if len(table) == 3:
                             """Tutaj wyciągniemy z chatu imię konsultanta
-                                Jest to zwykle 3 element tablicy table, imię jest na końcu"""
+                                Jest to zwykle 3 element tablicy table, imię jest na końcu
+                                Ten else jest na wypadek kiedy bedę któryś w kolejce"""
                             name = table[2][27:]
                             print(f"Pobrano imię konsultanta - {name}")
 
@@ -234,7 +235,7 @@ class XKom:
                     """Więcej nie będę rozpisywał żeby mi nie zablokowali IP albo wrzucili ma black_list"""
                     ""'Za pomocą ifów można to rozbudowywać, lub napisa pod to klasę, jeżeli ktoś chce stworzyć ' \
                     'poważny system relacji z konsultantem'
-                    """Ja robiłem to dla zabawy więc za pomocą ifów chciałem pokazać tylko żę się da i że potrafię"""
+                    """Ja robiłem to dla zabawy więc za pomocą ifów chciałem pokazać tylko żę się da"""
                 time.sleep(5)
             time.sleep(5)
             """To jest teraz bardzo ważne, tablica table będzie zerowana co cykl pętli while, natomiast zminna 
