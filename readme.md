@@ -18,7 +18,7 @@ Wiąże się ona z latami: 1937 - 1944, kiedy to pod kierunkiem H.Aikena został
 
 ## O programie
 W tym prgramie chciałem zaprezentować umiejętność pisania testów za pomocą Selenium jak i nie tylko.
-Zawsze dążę do osiągnięcia celu wkorzystując nowe sposoby, dzięki wykorzystaniu wielu bibliotek nie mam problemu z napisaniem testu.
+Zawsze dążę do osiągnięcia celu wykorzystując nowe sposoby, dzięki wykorzystaniu wielu bibliotek nie mam problemu z napisaniem testu.
 
 W tym punkcie omówię dwa moduły z klasy XKom w folderze data, w którym to napisałem program do zgrabnego poruszania się po sklepie: rejestracja - przejście do konkretnego produktu - wypełnienia danych w koszyku i przejścia do potwierdzenia zamówienia.
 Oraz konwersację z obsługą klienta, gdzie od paru niewinnych pytań będę chciał im zaoferować fotowoltaikę.
